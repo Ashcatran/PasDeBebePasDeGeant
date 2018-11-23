@@ -21,21 +21,20 @@ if __name__ == '__main__':
     g = 2
     a = 48 # we are looking for 0<=x < p-1 such as a = g**x mod p i.e. 57=3**100 mod 113
     m = int(math.ceil(math.sqrt(p)))
-    print('m', m)
+   # print('m', m)
     babySteps = {} # dicts in python have a search complexity of O(1)
-
-   # print(modPow(-2,-12345,1073741827))
+    print("Computing " + str(m) +" baby steps...")
     for i in range(0, m):
-       # babySteps[i] = modPow(g, i, p)
        babySteps[modPow(g, i, p)] = i
+    print("Done !")
     i = 0
 
-    print("===Baby Steps===")
-    for num in babySteps:
-        print(num, babySteps[num])
+   # print("===Baby Steps===")
+   # for num in babySteps:
+   #     print(num, babySteps[num])
     
     r = modPow(g, -m+p-1, p) # g**(-m+p-1)
-    print("===Giant Steps===")
+    print("Computing giant steps...")
     found = False
     while found == False:
         d = a * modPow(r, i, p) % p
@@ -44,11 +43,12 @@ if __name__ == '__main__':
        # print(i, d)
         i += 1
        # time.sleep(1)
+    print("Done !")
     i= i-1
     j=babySteps.get(d)
-    print(i, j)
+   # print(i, j)
     res = i*m +j
-    print(res)
+    print("The result is: " + str(res))
 
 
 
