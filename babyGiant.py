@@ -6,8 +6,9 @@ import time
 
 # algo from http://defeo.lu/in420/Pas%20de%20b%C3%A9b%C3%A9%20et%20pas%20de%20g%C3%A9ant
 
-#returns x**e mod n
+
 def modPow(x, e, n):
+    """returns x**e mod n"""
     result = 1
     while e > 0:
         if e & 1:
@@ -19,30 +20,27 @@ def modPow(x, e, n):
 if __name__ == '__main__':
     p = 101 #prime number, defines group Z/nZ
     g = 2
-    a = 48 # we are looking for 0<=x < p-1 such as a = g**x mod p i.e. 57=3**100 mod 113
+    a = 48 # we are looking for 0<=x < p-1 such as a = g**x mod p  <=> log[base g](a) = x
+    #i.e. 57=3**100 mod 113 => log[3](57) = 100
+
+    # m = number of baby steps
     m = int(math.ceil(math.sqrt(p)))
-   # print('m', m)
+
     babySteps = {} # dicts in python have a search complexity of O(1)
-    print("Computing " + str(m) +" baby steps...")
+    print("Computing " + str(m) +" baby steps... ", end="")
     for i in range(0, m):
        babySteps[modPow(g, i, p)] = i
     print("Done !")
     i = 0
-
-   # print("===Baby Steps===")
-   # for num in babySteps:
-   #     print(num, babySteps[num])
     
     r = modPow(g, -m+p-1, p) # g**(-m+p-1)
-    print("Computing giant steps...")
+    print("Computing giant steps... ", end="")
     found = False
     while found == False:
         d = a * modPow(r, i, p) % p
-       # found = d in babySteps.itervalues()
-        found = babySteps.has_key(d)
-       # print(i, d)
+        #found = babySteps.has_key(d)
+        found = d in babySteps
         i += 1
-       # time.sleep(1)
     print("Done !")
     i= i-1
     j=babySteps.get(d)
